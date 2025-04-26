@@ -1,4 +1,5 @@
 # Cadastro de Usuário
+[CV 24att.guilherme.rj..pdf](https://github.com/user-attachments/files/19925807/CV.24att.guilherme.rj.pdf)
 
 Este é um projeto simples de cadastro de usuário, desenvolvido com HTML, CSS e JavaScript. O objetivo do projeto é criar um formulário de registro com validações e salvar os dados preenchidos no formulário no **LocalStorage** do navegador.
 
@@ -22,4 +23,3 @@ Este é um projeto simples de cadastro de usuário, desenvolvido com HTML, CSS e
    ```bash
    git clone https://github.com/Guilherme-Rafael-Borges/cadastro-HTML-CSS-JS.git
 
-   [CV 24att.guilherme.rj..pdf](https://github.com/user-attachments/files/19925807/CV.24att.guilherme.rj.pdf)

@@ -21,3 +21,5 @@ Este é um projeto simples de cadastro de usuário, desenvolvido com HTML, CSS e
 1. Faça o download ou clone o repositório:
    ```bash
    git clone https://github.com/Guilherme-Rafael-Borges/cadastro-HTML-CSS-JS.git
+
+   [CV 24att.guilherme.rj..pdf](https://github.com/user-attachments/files/19925807/CV.24att.guilherme.rj.pdf)

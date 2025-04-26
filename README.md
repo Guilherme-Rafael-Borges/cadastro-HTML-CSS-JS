@@ -17,6 +17,7 @@ Este é um projeto simples de cadastro de usuário, desenvolvido com HTML, CSS e
 
 ## Como Rodar o Projeto
 
+
 1. Faça o download ou clone o repositório:
    ```bash
-   git clone https://github.com/SEU_USUARIO/nome-do-repositorio.git
+   git clone https://github.com/Guilherme-Rafael-Borges/cadastro-HTML-CSS-JS.git

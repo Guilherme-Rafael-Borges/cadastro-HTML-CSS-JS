@@ -15,10 +15,6 @@ Este é um projeto simples de cadastro de usuário, desenvolvido com HTML, CSS e
 - **CSS**: Estilização do formulário para uma aparência atraente e responsiva.
 - **JavaScript**: Validações de entrada e manipulação do **LocalStorage**.
 
-## Como Rodar o Projeto
 
 
-1. Faça o download ou clone o repositório:
-   ```bash
-   git clone https://github.com/Guilherme-Rafael-Borges/cadastro-HTML-CSS-JS.git
 

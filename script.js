@@ -1,92 +1,218 @@
-document.getElementById('registrationForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Impede o envio do formulário para realizar validações
+const form = document.getElementById('registrationForm');
+const feedback = document.getElementById('formFeedback');
 
-    const name = document.getElementById('name');
-    const maternalName = document.getElementById('maternalName');
-    const cpf = document.getElementById('cpf');
-    const cellphone = document.getElementById('cellphone');
-    const landline = document.getElementById('landline');
-    const address = document.getElementById('address');
-    const login = document.getElementById('login');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
+const validators = {
+    name: value => /^[A-ZÀ-ÖÙ-Ý][A-Za-zÀ-ÖØ-öø-ÿ'\s]{9,}$/.test(value.trim()),
+    maternalName: value => /^[A-ZÀ-ÖÙ-Ý][A-Za-zÀ-ÖØ-öø-ÿ'\s]{9,}$/.test(value.trim()),
+    cpf: value => /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(value.trim()),
+    cellphone: value => /^\+55\(\d{2}\)9\d{4}-\d{4}$/.test(value.trim()),
+    landline: value => /^\+55\(\d{2}\)[2-5]\d{3}-\d{4}$/.test(value.trim()),
+    address: value => /^(Rua|Avenida|Av\.|Travessa)\s+.{10,}$/i.test(value.trim()),
+    login: value => /^[A-Z]{5}$/.test(value.trim()),
+    password: value => /^[A-Za-z0-9]{7}$/.test(value),
+    confirmPassword: (value, fields) => value === fields.password.value && value.length > 0,
+    birthDate: value => Boolean(value)
+};
 
-    const nameRegex = /^[A-Z][a-zA-Z ]{9,}$/;
-    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-    const cellphoneRegex = /^\+55\(21\)9\d{4}-\d{4}$/;
-    const landlineRegex = /^\+55\(21\)[2345]\d{3}-\d{4}$/;
-    const addressRegex = /^(Rua|Avenida|Travessa|Av\.) [\w\s]{10,}$/i;
-    const loginRegex = /^[A-Z]{5}$/;
-    const passwordRegex = /^[a-zA-Z0-9]{7}$/;
+const errorMessages = {
+    name: 'Informe pelo menos 10 caracteres iniciando com letra maiúscula.',
+    maternalName: 'Informe pelo menos 10 caracteres iniciando com letra maiúscula.',
+    cpf: 'Digite o CPF no formato 000.000.000-00.',
+    cellphone: 'Use o formato +55(DD)9XXXX-XXXX.',
+    landline: 'Use o formato +55(DD)2XXX-XXXX até +55(DD)5XXX-XXXX.',
+    address: 'Comece com Rua, Avenida, Travessa ou Av. e detalhe o endereço.',
+    login: 'Utilize exatamente 5 letras maiúsculas.',
+    password: 'A senha deve ter 7 caracteres alfanuméricos.',
+    confirmPassword: 'As senhas precisam ser idênticas.',
+    birthDate: 'Informe uma data de nascimento válida.'
+};
 
-    let isValid = true;
+function getFieldWrapper(element) {
+    return element.closest('[data-field]');
+}
 
-    if (!nameRegex.test(name.value)) {
-        alert('O campo Nome deve ter pelo menos 10 caracteres alfabéticos e começar com letra maiúscula.');
-        isValid = false;
+function showError(field, message) {
+    const wrapper = getFieldWrapper(field);
+    const errorElement = document.querySelector(`[data-error-for="${field.name}"]`);
+    if (wrapper) {
+        wrapper.dataset.invalid = 'true';
     }
-    if (!nameRegex.test(maternalName.value)) {
-        alert('O campo Nome Materno deve ter pelo menos 10 caracteres alfabéticos e começar com letra maiúscula.');
-        isValid = false;
+    if (errorElement) {
+        errorElement.textContent = message;
     }
-    if (!cpfRegex.test(cpf.value)) {
-        alert('O campo CPF deve estar no formato 000.000.000-00.');
-        isValid = false;
+    field.setAttribute('aria-invalid', 'true');
+}
+
+function clearError(field) {
+    const wrapper = getFieldWrapper(field);
+    const errorElement = document.querySelector(`[data-error-for="${field.name}"]`);
+    if (wrapper) {
+        wrapper.removeAttribute('data-invalid');
     }
-    if (!cellphoneRegex.test(cellphone.value)) {
-        alert('O campo Telefone Celular deve estar no formato +55(21)99565-1622.');
-        isValid = false;
+    if (errorElement) {
+        errorElement.textContent = '';
     }
-    if (!landlineRegex.test(landline.value)) {
-        alert('O campo Telefone Fixo deve estar no formato +55(21)2XXX-XXXX, +55(21)3XXX-XXXX, +55(21)4XXX-XXXX ou +55(21)5XXX-XXXX.');
-        isValid = false;
-    }
-    if (!addressRegex.test(address.value)) {
-        alert('O campo Endereço Completo deve começar com Rua, Avenida, Travessa, ou Av. e ter pelo menos 10 caracteres alfanuméricos.');
-        isValid = false;
-    }
-    if (!loginRegex.test(login.value)) {
-        alert('O campo Login deve ter exatamente 5 caracteres alfabéticos em letras maiúsculas.');
-        isValid = false;
-    }
-    if (!passwordRegex.test(password.value)) {
-        alert('O campo Senha deve ter exatamente 7 caracteres alfanuméricos.');
-        isValid = false;
-    }
-    if (password.value !== confirmPassword.value) {
-        alert('As senhas não coincidem.');
-        isValid = false;
+    field.removeAttribute('aria-invalid');
+}
+
+function validateField(field, fields) {
+    const validator = validators[field.name];
+    if (!validator) {
+        return true;
     }
 
-    if (isValid) {
-        // Armazenando os dados no LocalStorage
-        localStorage.setItem('name', name.value);
-        localStorage.setItem('maternalName', maternalName.value);
-        localStorage.setItem('cpf', cpf.value);
-        localStorage.setItem('cellphone', cellphone.value);
-        localStorage.setItem('landline', landline.value);
-        localStorage.setItem('address', address.value);
-        localStorage.setItem('login', login.value);
-        localStorage.setItem('password', password.value);
-
-        alert('Formulário enviado com sucesso!');
-        document.getElementById('registrationForm').reset(); // Limpa o formulário
+    const isValid = validator(field.value, fields);
+    if (!isValid) {
+        showError(field, errorMessages[field.name]);
+    } else {
+        clearError(field);
     }
-});
+    return isValid;
+}
 
-// Função para preencher o formulário com os dados salvos no LocalStorage
-function loadFormData() {
-    if (localStorage.getItem('name')) {
-        document.getElementById('name').value = localStorage.getItem('name');
-        document.getElementById('maternalName').value = localStorage.getItem('maternalName');
-        document.getElementById('cpf').value = localStorage.getItem('cpf');
-        document.getElementById('cellphone').value = localStorage.getItem('cellphone');
-        document.getElementById('landline').value = localStorage.getItem('landline');
-        document.getElementById('address').value = localStorage.getItem('address');
-        document.getElementById('login').value = localStorage.getItem('login');
-        document.getElementById('password').value = localStorage.getItem('password');
+function validateGender() {
+    const genderInputs = form.querySelectorAll('input[name="gender"]');
+    const errorElement = document.querySelector('[data-error-for="gender"]');
+    const wrapper = genderInputs[0]?.closest('[data-field]');
+    const checked = Array.from(genderInputs).some(input => input.checked);
+
+    if (!checked) {
+        if (wrapper) {
+            wrapper.dataset.invalid = 'true';
+        }
+        if (errorElement) {
+            errorElement.textContent = 'Selecione uma opção.';
+        }
+    } else {
+        if (wrapper) {
+            wrapper.removeAttribute('data-invalid');
+        }
+        if (errorElement) {
+            errorElement.textContent = '';
+        }
+    }
+
+    return checked;
+}
+
+function setFeedback(message, status) {
+    if (!feedback) {
+        return;
+    }
+    if (message) {
+        feedback.textContent = message;
+        feedback.dataset.status = status;
+    } else {
+        feedback.textContent = '';
+        feedback.removeAttribute('data-status');
     }
 }
 
-// Carregar os dados ao abrir a página
-window.onload = loadFormData;
+form.addEventListener('submit', event => {
+    event.preventDefault();
+    const fields = {
+        name: document.getElementById('name'),
+        maternalName: document.getElementById('maternalName'),
+        cpf: document.getElementById('cpf'),
+        cellphone: document.getElementById('cellphone'),
+        landline: document.getElementById('landline'),
+        address: document.getElementById('address'),
+        login: document.getElementById('login'),
+        password: document.getElementById('password'),
+        confirmPassword: document.getElementById('confirmPassword'),
+        birthDate: document.getElementById('birthDate')
+    };
+
+    let isValid = true;
+
+    Object.values(fields).forEach(field => {
+        const fieldIsValid = validateField(field, fields);
+        if (!fieldIsValid) {
+            isValid = false;
+        }
+    });
+
+    if (!validateGender()) {
+        isValid = false;
+    }
+
+    if (!isValid) {
+        setFeedback('Revise os campos destacados e tente novamente.', 'error');
+        return;
+    }
+
+    Object.entries(fields).forEach(([key, input]) => {
+        localStorage.setItem(key, input.value.trim());
+    });
+
+    const genderValue = form.querySelector('input[name="gender"]:checked')?.value ?? '';
+    localStorage.setItem('gender', genderValue);
+
+    form.reset();
+    form.querySelectorAll('[data-field]').forEach(wrapper => wrapper.removeAttribute('data-invalid'));
+    setFeedback('Formulário enviado com sucesso!', 'success');
+});
+
+form.addEventListener('reset', () => {
+    setFeedback('', '');
+    form.querySelectorAll('[data-field]').forEach(wrapper => wrapper.removeAttribute('data-invalid'));
+    form.querySelectorAll('[data-error-for]').forEach(error => {
+        error.textContent = '';
+    });
+});
+
+form.addEventListener('input', event => {
+    const target = event.target;
+    if (target.name === 'gender') {
+        validateGender();
+        return;
+    }
+    if (target.name in validators) {
+        validateField(target, {
+            password: document.getElementById('password'),
+            confirmPassword: document.getElementById('confirmPassword')
+        });
+        if (target.name === 'password') {
+            const confirmField = document.getElementById('confirmPassword');
+            if (confirmField.value) {
+                validateField(confirmField, {
+                    password: document.getElementById('password'),
+                    confirmPassword: confirmField
+                });
+            }
+        }
+    }
+});
+
+form.addEventListener('blur', event => {
+    const target = event.target;
+    if (target.name && target.name in validators) {
+        validateField(target, {
+            password: document.getElementById('password'),
+            confirmPassword: document.getElementById('confirmPassword')
+        });
+    }
+}, true);
+
+function loadFormData() {
+    const fields = ['name', 'maternalName', 'cpf', 'cellphone', 'landline', 'address', 'login', 'password', 'confirmPassword', 'birthDate'];
+    fields.forEach(key => {
+        const storedValue = localStorage.getItem(key);
+        if (storedValue) {
+            const input = document.getElementById(key);
+            if (input) {
+                input.value = storedValue;
+            }
+        }
+    });
+
+    const storedGender = localStorage.getItem('gender');
+    if (storedGender) {
+        const genderInput = form.querySelector(`input[name="gender"][value="${storedGender}"]`);
+        if (genderInput) {
+            genderInput.checked = true;
+        }
+    }
+}
+
+window.addEventListener('load', loadFormData);

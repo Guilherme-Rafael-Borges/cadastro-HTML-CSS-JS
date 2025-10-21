@@ -8,55 +8,108 @@
     
 </head>
 <body>
+    <main class="page">
+        <section class="form-wrapper">
+            <h1>Cadastro de Usuário</h1>
+            <p class="form-description">Preencha os dados abaixo para concluir o cadastro. Todos os campos são obrigatórios.</p>
 
-<form id="registrationForm">
-    <label for="name">Nome:</label>
-    <input type="text" id="name" name="name" required>
+            <form id="registrationForm" class="form-grid" novalidate>
+                <div class="form-field" data-field>
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" placeholder="Digite o nome completo" required>
+                    <small class="form-hint">Mínimo de 10 caracteres e iniciar com letra maiúscula.</small>
+                    <p class="form-error" data-error-for="name" aria-live="polite"></p>
+                </div>
 
-    <label for="birthDate">Data de Nascimento:</label>
-    <input type="date" id="birthDate" name="birthDate" required>
+                <div class="form-field" data-field>
+                    <label for="birthDate">Data de Nascimento</label>
+                    <input type="date" id="birthDate" name="birthDate" required>
+                    <small class="form-hint">Informe uma data válida.</small>
+                    <p class="form-error" data-error-for="birthDate" aria-live="polite"></p>
+                </div>
 
-    <div class="radio-group">
-        <label>Sexo:</label>
-        <div class="radio-options">
-            <input type="radio" id="male" name="gender" value="Masculino" required>
-            <label for="male">Masculino</label>
-            <input type="radio" id="female" name="gender" value="Feminino" required>
-            <label for="female">Feminino</label>
-        </div>
-    </div>
-    
+                <fieldset class="form-field form-field--full" data-field>
+                    <legend>Sexo</legend>
+                    <div class="radio-options" role="radiogroup" aria-labelledby="genderGroupLabel">
+                        <span id="genderGroupLabel" class="visually-hidden">Sexo</span>
+                        <label class="radio-option" for="male">
+                            <input type="radio" id="male" name="gender" value="Masculino" required>
+                            Masculino
+                        </label>
+                        <label class="radio-option" for="female">
+                            <input type="radio" id="female" name="gender" value="Feminino" required>
+                            Feminino
+                        </label>
+                    </div>
+                    <p class="form-error" data-error-for="gender" aria-live="polite"></p>
+                </fieldset>
 
-    <label for="maternalName">Nome Materno:</label>
-    <input type="text" id="maternalName" name="maternalName" required>
+                <div class="form-field" data-field>
+                    <label for="maternalName">Nome Materno</label>
+                    <input type="text" id="maternalName" name="maternalName" placeholder="Digite o nome da mãe" required>
+                    <small class="form-hint">Mínimo de 10 caracteres e iniciar com letra maiúscula.</small>
+                    <p class="form-error" data-error-for="maternalName" aria-live="polite"></p>
+                </div>
 
-    <label for="cpf">CPF:</label>
-    <input type="text" id="cpf" name="cpf" required>
+                <div class="form-field" data-field>
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                    <small class="form-hint">Use apenas números no formato 000.000.000-00.</small>
+                    <p class="form-error" data-error-for="cpf" aria-live="polite"></p>
+                </div>
 
-    <label for="cellphone">Telefone Celular:</label>
-    <input type="text" id="cellphone" name="cellphone" required>
+                <div class="form-field" data-field>
+                    <label for="cellphone">Telefone Celular</label>
+                    <input type="text" id="cellphone" name="cellphone" placeholder="+55(21)9XXXX-XXXX" required>
+                    <small class="form-hint">Inclua o DDD entre parênteses e o número com 9 dígitos.</small>
+                    <p class="form-error" data-error-for="cellphone" aria-live="polite"></p>
+                </div>
 
-    <label for="landline">Telefone Fixo:</label>
-    <input type="text" id="landline" name="landline" required>
+                <div class="form-field" data-field>
+                    <label for="landline">Telefone Fixo</label>
+                    <input type="text" id="landline" name="landline" placeholder="+55(21)2XXX-XXXX" required>
+                    <small class="form-hint">Inclua o DDD e utilize números iniciando em 2 a 5.</small>
+                    <p class="form-error" data-error-for="landline" aria-live="polite"></p>
+                </div>
 
-    <label for="address">Endereço Completo:</label>
-    <input type="text" id="address" name="address" required>
+                <div class="form-field form-field--full" data-field>
+                    <label for="address">Endereço Completo</label>
+                    <input type="text" id="address" name="address" placeholder="Rua Exemplo, 123 - Bairro - Cidade" required>
+                    <small class="form-hint">Comece com Rua, Avenida, Travessa ou Av. e detalhe o endereço.</small>
+                    <p class="form-error" data-error-for="address" aria-live="polite"></p>
+                </div>
 
-    <label for="login">Login:</label>
-    <input type="text" id="login" name="login" required>
+                <div class="form-field" data-field>
+                    <label for="login">Login</label>
+                    <input type="text" id="login" name="login" placeholder="ABCDE" required>
+                    <small class="form-hint">Utilize exatamente 5 letras maiúsculas.</small>
+                    <p class="form-error" data-error-for="login" aria-live="polite"></p>
+                </div>
 
-    <label for="password">Senha:</label>
-    <input type="password" id="password" name="password" required>
+                <div class="form-field" data-field>
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="******" required>
+                    <small class="form-hint">Informe 7 caracteres alfanuméricos.</small>
+                    <p class="form-error" data-error-for="password" aria-live="polite"></p>
+                </div>
 
-    <label for="confirmPassword">Confirmação da Senha:</label>
-    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div class="form-field form-field--full" data-field>
+                    <label for="confirmPassword">Confirmação da Senha</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita a senha" required>
+                    <small class="form-hint">Deve ser igual à senha digitada acima.</small>
+                    <p class="form-error" data-error-for="confirmPassword" aria-live="polite"></p>
+                </div>
 
-    <div class="button-group">
-        <button type="reset">Limpar</button>
-        <button type="submit">Enviar</button>
-    </div>
-</form>
+                <p class="form-feedback" id="formFeedback" role="status" aria-live="polite"></p>
 
-<script src="script.js"></script>
+                <div class="button-group form-field--full">
+                    <button type="reset" class="button button--secondary">Limpar</button>
+                    <button type="submit" class="button">Enviar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
